@@ -2,7 +2,7 @@ import { app } from '@/app'
 import { User } from '@/entities/system/user'
 import request from 'supertest'
 
-describe('update user (e2e)', () => {
+describe('disable user (e2e)', () => {
   beforeAll(async () => {
     await app.ready()
   })
@@ -10,7 +10,7 @@ describe('update user (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to list all users', async () => {
+  it('should be able to disable a users', async () => {
     const array = [1, 2, 3, 4]
 
     for await (const n of array) {
@@ -25,18 +25,16 @@ describe('update user (e2e)', () => {
     const users: User[] = body.users
     const user = users[0]
 
-    const updateRequest = await request(app.server).patch(`/users/${user.id}`).send({
-      name: 'new name'
-    })
+    const disableRequest = await request(app.server).patch(`/users/${user.id}/disable`).send()
 
     const allUsersBody = await request(app.server).get('/users').send()
     const allUsers: User[] = allUsersBody.body.users
     const updatedUser = allUsers.find(u => u.id === user.id)
 
-    expect(updateRequest.statusCode).toEqual(200)
-    expect(updatedUser).toHaveProperty('name')
+    expect(disableRequest.statusCode).toEqual(200)
+    expect(updatedUser).toHaveProperty('is_active')
     expect(updatedUser).toEqual(expect.objectContaining({
-      name: 'new name'
+      is_active: false
     }))
   })
 })

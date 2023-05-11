@@ -12,6 +12,7 @@ model User {
   email      String   @unique
   password   String
   name       String?
+  is_active  Boolean  @default(true)
   created_at DateTime @default(now())
 
   @@map("users")
