@@ -1,6 +1,8 @@
 import { type CreateUserDTO } from '@/entities/system/user'
-import { UserAlreadyExistsError } from '@/errors/user-already-exists-error'
 import { type UserRepository } from '@/repositories/system/user-repository'
+
+import { UserAlreadyExistsError } from '@/errors/user-already-exists-error'
+import { PrismaUserRepository } from '@/repositories/system/prisma/prisma-user-repositoy'
 import { hash } from 'bcryptjs'
 
 export class CreateUserUseCase {
@@ -25,4 +27,11 @@ export class CreateUserUseCase {
       password: passwordHash
     })
   }
+}
+
+export function makeCreateUserUseCase(): CreateUserUseCase {
+  const usersRepository = new PrismaUserRepository()
+  const createUseCase = new CreateUserUseCase(usersRepository)
+
+  return createUseCase
 }
