@@ -12,6 +12,8 @@
         "project": ["./tsconfig.json"]
     },
     "rules": {
-        "@typescript-eslint/consistent-type-imports": 0
+        "@typescript-eslint/consistent-type-imports": 0,
+        "@typescript-eslint/space-before-function-paren": 0,
+        "@typescript-eslint/strict-boolean-expressions": 0
       }
 }
