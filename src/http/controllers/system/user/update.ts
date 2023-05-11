@@ -25,5 +25,5 @@ export async function update(request: FastifyRequest, reply: FastifyReply): Prom
     throw err
   }
 
-  return await reply.status(201).send()
+  return await reply.status(200).send()
 }

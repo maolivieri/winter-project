@@ -6,5 +6,5 @@ export async function list(request: FastifyRequest, reply: FastifyReply): Promis
 
   const users = await listUsersUseCase.execute()
 
-  return await reply.status(201).send(users)
+  return await reply.status(200).send(users)
 }
