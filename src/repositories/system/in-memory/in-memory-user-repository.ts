@@ -4,6 +4,11 @@ import { randomUUID } from 'crypto'
 
 export class InMemoryUserRepository implements UserRepository {
   public users: User[] = []
+
+  async listUsers(): Promise<User[]> {
+    return this.users
+  }
+
   async create(user: CreateUserDTO): Promise<void> {
     const newUser = {
       id: randomUUID(),

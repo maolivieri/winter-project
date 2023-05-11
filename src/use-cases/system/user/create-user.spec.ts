@@ -1,3 +1,4 @@
+import { UserAlreadyExistsError } from '@/errors/user-already-exists-error'
 import { InMemoryUserRepository } from '../../../repositories/system/in-memory/in-memory-user-repository'
 import { CreateUserUseCase } from './create-user'
 
@@ -20,5 +21,19 @@ describe('User', () => {
     const user = await userRepository.findByEmail('johndoe@example.com')
 
     expect(user).toHaveProperty('id')
+  })
+
+  it('should not create a user with an existing email address', async () => {
+    await userRepository.create({
+      name: 'John Doe',
+      email: 'test1@example.com',
+      password: '123456'
+    })
+
+    await expect(sut.execute({
+      name: 'Test2',
+      email: 'test1@example.com',
+      password: '123456'
+    })).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 })
