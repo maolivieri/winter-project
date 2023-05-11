@@ -17,7 +17,7 @@ describe('User', () => {
       password: '123456'
     })
 
-    const user = userRepository.items.find(user => user.name === 'John Doe')
+    const user = await userRepository.findByEmail('johndoe@example.com')
 
     expect(user).toHaveProperty('id')
   })
