@@ -1,4 +1,5 @@
 import { User } from '@/entities/system/user'
+import { PrismaUserRepository } from '@/repositories/system/prisma/prisma-user-repositoy'
 import { UserRepository } from '@/repositories/system/user-repository'
 
 interface ListUsersResponse {
@@ -15,4 +16,11 @@ export class ListUsersUseCase {
       users
     }
   }
+}
+
+export function makeListUsersUseCase(): ListUsersUseCase {
+  const userRepository = new PrismaUserRepository()
+  const listUserUseCase = new ListUsersUseCase(userRepository)
+
+  return listUserUseCase
 }
