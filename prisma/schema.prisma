@@ -10,7 +10,7 @@ datasource db {
 model User {
   id         String   @id @default(uuid())
   email      String   @unique
-  password   String
+  password   String?
   name       String?
   is_active  Boolean  @default(true)
   created_at DateTime @default(now())
