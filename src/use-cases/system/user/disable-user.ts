@@ -17,6 +17,7 @@ export class DisableUserUseCase {
     }
 
     await this.userRepository.update({ userId, userInfo })
+    // TODO: Delete all available tokens
   }
 }
 

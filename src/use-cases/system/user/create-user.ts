@@ -1,12 +1,12 @@
 import { hash } from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-import { type CreateUserDTO } from '@/entities/system/user'
+import { User, type CreateUserDTO } from '@/entities/system/user'
 import { type UserRepository } from '@/repositories/system/user-repository'
 
 import { UserAlreadyExistsError } from '@/errors/user-already-exists-error'
 import { PrismaUserRepository } from '@/repositories/system/prisma/prisma-user-repositoy'
-import { makeEmailProvider } from '@/lib/mail-provider'
+import makeEmailProvider from '@/lib/mail-provider/mail-provider'
 
 import { welcomeEmailTemplate } from '@/lib/mail-provider/templates/welcome'
 import { env } from '@/env'
@@ -19,7 +19,7 @@ export class CreateUserUseCase {
     email,
     password,
     name
-  }: CreateUserDTO): Promise<void> {
+  }: CreateUserDTO): Promise<User> {
     const passwordHash = password ? await hash(password, 6) : null
 
     const userWithSameEmail = await this.userRepository.findByEmail(email)
@@ -28,7 +28,13 @@ export class CreateUserUseCase {
       throw new UserAlreadyExistsError()
     }
 
-    const setPasswordToken: string = jwt.sign({}, env.RESET_PASSWORD_SECRET, {
+    const user = await this.userRepository.create({
+      email,
+      name,
+      password: passwordHash
+    })
+
+    const setPasswordToken: string = jwt.sign({ sub: user.id }, env.RESET_PASSWORD_SECRET, {
       expiresIn: '2d'
     })
 
@@ -40,11 +46,7 @@ export class CreateUserUseCase {
       text: `Please past this link on the browser ${setPasswordToken}`
     })
 
-    await this.userRepository.create({
-      email,
-      name,
-      password: passwordHash
-    })
+    return user
   }
 }
 

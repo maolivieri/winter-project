@@ -1,6 +1,6 @@
 import { env } from '@/env'
 import nodemailer from 'nodemailer'
-import { EmailServiceProvider, SendEmailDTO, SendEmailResponse } from '.'
+import { EmailServiceProvider, SendEmailDTO, SendEmailResponse } from './mail-provider'
 
 export class NodeMailerService implements EmailServiceProvider {
   async sendEmail({ from, html, subject, text, to }: SendEmailDTO): Promise<SendEmailResponse> {

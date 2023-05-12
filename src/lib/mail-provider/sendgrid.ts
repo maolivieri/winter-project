@@ -1,7 +1,7 @@
 import sgMail from '@sendgrid/mail'
 
 import { env } from '@/env'
-import { EmailServiceProvider, SendEmailDTO, SendEmailResponse } from '.'
+import { EmailServiceProvider, SendEmailDTO, SendEmailResponse } from './mail-provider'
 
 export class SendGridService implements EmailServiceProvider {
   async sendEmail({ from, html, subject, text, to }: SendEmailDTO): Promise<SendEmailResponse> {

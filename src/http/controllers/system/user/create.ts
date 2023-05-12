@@ -7,7 +7,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply): Prom
   const registerBodySchema = z.object({
     name: z.string(),
     email: z.string().email(),
-    password: z.string().min(6)
+    password: z.string().min(6).optional()
   })
 
   const { name, email, password } = registerBodySchema.parse(request.body)

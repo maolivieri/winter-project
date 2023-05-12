@@ -9,18 +9,21 @@ export class InMemoryUserRepository implements UserRepository {
     return this.users
   }
 
-  async create(user: CreateUserDTO): Promise<void> {
+  async create(user: CreateUserDTO): Promise<User> {
     const newUser = {
       id: randomUUID(),
       name: user.name ?? null,
       email: user.email,
-      password: user.password,
+      password: user.password ?? '',
+      is_active: true,
       created_at: new Date()
     }
 
     if (newUser) {
       this.users.push(newUser)
     }
+
+    return newUser
   }
 
   async update({ userId, userInfo }: UpdateUserDTO): Promise<void> {
