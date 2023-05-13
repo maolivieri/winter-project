@@ -6,7 +6,7 @@ import { type UserRepository } from '@/repositories/system/user-repository'
 
 import { UserAlreadyExistsError } from '@/errors/user-already-exists-error'
 import { PrismaUserRepository } from '@/repositories/system/prisma/prisma-user-repositoy'
-import makeEmailProvider from '@/lib/mail-provider/mail-provider'
+import { makeEmailProvider } from '@/lib/mail-provider'
 
 import { welcomeEmailTemplate } from '@/lib/mail-provider/templates/welcome'
 import { env } from '@/env'

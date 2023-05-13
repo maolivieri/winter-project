@@ -1,3 +1,6 @@
+import { NodeMailerService } from './nodemon'
+import { SendGridService } from './sendgrid'
+
 export interface EmailServiceProvider {
   sendEmail: (data: SendEmailDTO) => Promise<SendEmailResponse>
 }
@@ -21,4 +24,11 @@ export class EmailProvider {
   async execute(data: SendEmailDTO): Promise<SendEmailResponse> {
     return await this.serviceProvider.sendEmail(data)
   }
+}
+
+export function makeEmailProvider(provider: 'sendgrid' | 'nodemailer'): EmailProvider {
+  const service = provider === 'nodemailer' ? new SendGridService() : new NodeMailerService()
+  const sendEmail = new EmailProvider(service)
+
+  return sendEmail
 }

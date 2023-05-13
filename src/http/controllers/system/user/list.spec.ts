@@ -1,6 +1,12 @@
 import { app } from '@/app'
 import request from 'supertest'
 
+vi.mock('@/lib/mail-provider', () => ({
+  makeEmailProvider: vi.fn().mockImplementation(() => ({
+    execute: () => {}
+  }))
+}))
+
 describe('list users (e2e)', () => {
   beforeAll(async () => {
     await app.ready()

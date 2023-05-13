@@ -2,6 +2,12 @@ import { app } from '@/app'
 import { User } from '@/entities/system/user'
 import request from 'supertest'
 
+vi.mock('@/lib/mail-provider', () => ({
+  makeEmailProvider: vi.fn().mockImplementation(() => ({
+    execute: () => {}
+  }))
+}))
+
 describe('update user (e2e)', () => {
   beforeAll(async () => {
     await app.ready()

@@ -1,12 +1,14 @@
 import { UserAlreadyExistsError } from '@/errors/user-already-exists-error'
-import { InMemoryUserRepository } from '../../../repositories/system/in-memory/in-memory-user-repository'
+import { InMemoryUserRepository } from '@/repositories/system/in-memory/in-memory-user-repository'
 import { CreateUserUseCase } from './create-user'
 
 let userRepository: InMemoryUserRepository
 let sut: CreateUserUseCase
 
-vi.mock('../../../lib/mail-provider/mail-provider.ts', () => ({
-  execute: vi.fn()
+vi.mock('@/lib/mail-provider', () => ({
+  makeEmailProvider: vi.fn().mockImplementation(() => ({
+    execute: () => {}
+  }))
 }))
 
 describe('User', () => {
