@@ -6,6 +6,7 @@ import { disable } from './disable'
 import { resetPassword } from './reset-password'
 import { updatePassword } from './update-password'
 import { authenticate } from './authenticate'
+import { refreshToken } from './refresh-token'
 
 // import { verifyJwt } from '@/http/middlewares/verify-jwt'
 
@@ -18,7 +19,7 @@ export async function usersRoutes (app: FastifyInstance): Promise<void> {
   app.post('/users/update-password', updatePassword)
   app.post('/login', authenticate)
 
-  // app.patch('/token/refresh', refresh)
+  app.patch('/token/refresh', refreshToken)
 
   /** Authenticated */
   // app.get('/me', { onRequest: [verifyJwt] }, profile)

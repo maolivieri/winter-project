@@ -8,6 +8,7 @@ export interface CreateRefreshTokenDTO {
 export interface RefreshTokenRepository {
   create: (data: CreateRefreshTokenDTO) => Promise<void>
   listByUserId: (userId: string) => Promise<RefreshToken[]>
+  findByTokenId: (token: string) => Promise<RefreshToken | null>
   deleteByUserId: (userId: string) => Promise<void>
   deleteByToken: (token: string) => Promise<void>
 }

@@ -11,6 +11,12 @@ export class InMemoryRefreshTokenRepository implements RefreshTokenRepository {
     })
   }
 
+  async findByTokenId(token: string): Promise<RefreshToken | null> {
+    const refreshToken = this.tokens.find(item => item.refresh_token === token) ?? null
+
+    return refreshToken
+  }
+
   async listByUserId(userId: string): Promise<RefreshToken[]> {
     return this.tokens.filter(token => token.user_id === userId)
   }

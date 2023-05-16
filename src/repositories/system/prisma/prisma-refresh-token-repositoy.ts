@@ -2,6 +2,16 @@ import { RefreshToken, RefreshTokenEntity } from '@/entities/system/refresh-toke
 import { CreateRefreshTokenDTO, RefreshTokenRepository } from '../refresh-token-repository'
 
 export class PrismaRefreshTokenRepository implements RefreshTokenRepository {
+  async findByTokenId(token: string): Promise<RefreshToken | null> {
+    const databaseToken = await RefreshTokenEntity.findUnique({
+      where: {
+        refresh_token: token
+      }
+    })
+
+    return databaseToken
+  }
+
   async create({ userId, token }: CreateRefreshTokenDTO): Promise<void> {
     await RefreshTokenEntity.create({
       data: {
