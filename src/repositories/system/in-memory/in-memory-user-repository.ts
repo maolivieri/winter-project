@@ -1,5 +1,5 @@
 import { CreateUserDTO, UpdateUserDTO, User } from '@/entities/system/user'
-import { UserRepository } from '../user-repository'
+import { UpdatePasswordDTO, UserRepository } from '../user-repository'
 import { randomUUID } from 'crypto'
 
 export class InMemoryUserRepository implements UserRepository {
@@ -31,6 +31,14 @@ export class InMemoryUserRepository implements UserRepository {
 
     if (userIndex > -1) {
       this.users[userIndex] = { ...this.users[userIndex], ...userInfo }
+    }
+  }
+
+  async updatePasword({ userId, password }: UpdatePasswordDTO): Promise<void> {
+    const userIndex = this.users.findIndex(user => user.id === userId)
+
+    if (userIndex > -1) {
+      this.users[userIndex] = { ...this.users[userIndex], password }
     }
   }
 

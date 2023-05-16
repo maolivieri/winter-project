@@ -1,5 +1,5 @@
 import { type User, UserEntity, CreateUserDTO, UpdateUserDTO } from '@/entities/system/user'
-import { type UserRepository } from '../user-repository'
+import { UpdatePasswordDTO, type UserRepository } from '../user-repository'
 
 export class PrismaUserRepository implements UserRepository {
   async listUsers(): Promise<User[]> {
@@ -20,6 +20,17 @@ export class PrismaUserRepository implements UserRepository {
         id: userId
       },
       data: userInfo
+    })
+  }
+
+  async updatePasword({ userId, password }: UpdatePasswordDTO): Promise<void> {
+    await UserEntity.update({
+      where: {
+        id: userId
+      },
+      data: {
+        password
+      }
     })
   }
 

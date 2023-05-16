@@ -9,9 +9,9 @@ export async function disable(request: FastifyRequest, reply: FastifyReply): Pro
   const { id } = paramsSchema.parse(request.params)
 
   try {
-    const updateUseCase = makeDisableUserUseCase()
+    const useCase = makeDisableUserUseCase()
 
-    await updateUseCase.execute(id)
+    await useCase.execute(id)
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return await reply.status(404).send({ message: err.message })

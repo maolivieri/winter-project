@@ -1,21 +1,19 @@
 import { ResourceNotFoundError } from '@/errors/resource-not-found'
-import { makeUpdateUserUseCase } from '@/use-cases/system/user/update-user'
+import { makeUpdatePasswordUseCase } from '@/use-cases/system/user/update-password'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function update(request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
-  const bodySchema = z.object({ password: z.string(), resetPasswordToken: z.string() })
-  const paramsSchema = z.object({ id: z.coerce.string() })
+export async function updatePassword(request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
+  const bodySchema = z.object({ password: z.string(), token: z.string() })
 
-  const { password, resetPasswordToken } = bodySchema.parse(request.body)
-  const { id } = paramsSchema.parse(request.params)
+  const { password, token } = bodySchema.parse(request.body)
 
   try {
-    const updateUseCase = makeUpdateUserUseCase()
+    const useCase = makeUpdatePasswordUseCase()
 
-    await updateUseCase.execute({
-      userId: id,
-      userInfo: { name }
+    await useCase.execute({
+      token,
+      password
     })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {

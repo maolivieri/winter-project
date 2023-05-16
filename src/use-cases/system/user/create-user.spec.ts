@@ -5,20 +5,10 @@ import { CreateUserUseCase } from './create-user'
 let userRepository: InMemoryUserRepository
 let sut: CreateUserUseCase
 
-vi.mock('@/lib/mail-provider', () => ({
-  makeEmailProvider: vi.fn().mockImplementation(() => ({
-    execute: () => {}
-  }))
-}))
-
 describe('User', () => {
   beforeEach(() => {
     userRepository = new InMemoryUserRepository()
     sut = new CreateUserUseCase(userRepository)
-  })
-
-  afterEach(() => {
-    vi.restoreAllMocks()
   })
 
   it('should be able to create a user', async () => {
