@@ -1,9 +1,9 @@
-import { InvalidCredentialsError } from '@/errors/invalid-credentials'
-import { makeAuthenticateUseCase } from '@/use-cases/system/user/authenticate'
-import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import jwt from 'jsonwebtoken'
-import { env } from '@/env'
+import { FastifyReply, FastifyRequest } from 'fastify'
+
+import { makeAuthenticateUseCase } from '@/use-cases/system/user/authenticate'
+
+import { InvalidCredentialsError } from '@/errors/invalid-credentials'
 import { ResourceNotFoundError } from '@/errors/resource-not-found'
 
 export async function authenticate(request: FastifyRequest, reply: FastifyReply): Promise<FastifyReply> {
@@ -17,16 +17,9 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
   try {
     const registerUseCase = makeAuthenticateUseCase()
 
-    const user = await registerUseCase.execute({
+    const { user, refresh, token } = await registerUseCase.execute({
       email,
       password
-    })
-
-    const token: string = jwt.sign({ sub: user.id }, env.JWT_SECRET, {
-      expiresIn: '30m'
-    })
-    const refresh: string = jwt.sign({ sub: user.id }, env.REFRESH_JWT_SECRET, {
-      expiresIn: '10d'
     })
 
     return await reply.status(201).send({

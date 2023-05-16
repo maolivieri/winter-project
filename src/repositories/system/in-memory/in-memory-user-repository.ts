@@ -1,6 +1,7 @@
 import { CreateUserDTO, UpdateUserDTO, User } from '@/entities/system/user'
 import { UpdatePasswordDTO, UserRepository } from '../user-repository'
 import { randomUUID } from 'crypto'
+import { hash } from 'bcryptjs'
 
 export class InMemoryUserRepository implements UserRepository {
   public users: User[] = []
@@ -10,11 +11,13 @@ export class InMemoryUserRepository implements UserRepository {
   }
 
   async create(user: CreateUserDTO): Promise<User> {
+    const passwordHash = user.password ? await hash(user.password, 6) : null
+
     const newUser = {
       id: randomUUID(),
       name: user.name ?? null,
       email: user.email,
-      password: user.password ?? '',
+      password: passwordHash,
       is_active: true,
       created_at: new Date()
     }
