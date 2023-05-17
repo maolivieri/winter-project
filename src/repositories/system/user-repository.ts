@@ -11,5 +11,5 @@ export interface UserRepository {
   findById: (userId: string) => Promise<User | null>
   update: (data: UpdateUserDTO) => Promise<void>
   updatePasword: (data: UpdatePasswordDTO) => Promise<void>
-  listUsers: () => Promise<User[]>
+  listUsers: () => Promise<Array<Omit<User, 'password'>>>
 }

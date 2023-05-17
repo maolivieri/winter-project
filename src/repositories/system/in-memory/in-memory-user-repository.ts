@@ -6,7 +6,7 @@ import { hash } from 'bcryptjs'
 export class InMemoryUserRepository implements UserRepository {
   public users: User[] = []
 
-  async listUsers(): Promise<User[]> {
+  async listUsers(): Promise<Array<Omit<User, 'password'>>> {
     return this.users
   }
 

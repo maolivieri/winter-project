@@ -2,8 +2,18 @@ import { type User, UserEntity, CreateUserDTO, UpdateUserDTO } from '@/entities/
 import { UpdatePasswordDTO, type UserRepository } from '../user-repository'
 
 export class PrismaUserRepository implements UserRepository {
-  async listUsers(): Promise<User[]> {
-    return await UserEntity.findMany()
+  async listUsers(): Promise<Array<Omit<User, 'password'>>> {
+    return await UserEntity.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        is_active: true,
+        created_at: true,
+        password: false,
+        refresh_tokens: false
+      }
+    })
   }
 
   async findByEmail(email: string): Promise<User | null> {

@@ -22,8 +22,11 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
       password
     })
 
-    return await reply.status(201).send({
-      user,
+    return await reply.status(200).send({
+      user: {
+        ...user,
+        password: undefined
+      },
       token,
       refresh
     })
