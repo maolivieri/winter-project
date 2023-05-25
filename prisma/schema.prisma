@@ -15,6 +15,8 @@ model User {
   is_active      Boolean            @default(true)
   created_at     DateTime           @default(now())
   refresh_tokens UserRefreshToken[]
+  role           Role               @relation(fields: [role_id], references: [id])
+  role_id        String
 
   @@map("users")
 }
@@ -25,4 +27,35 @@ model UserRefreshToken {
   user          User   @relation(fields: [user_id], references: [id])
 
   @@map("user_refresh_token")
+}
+
+model Role {
+  id          String            @id @default(uuid())
+  name        String            @unique
+  created_at  DateTime          @default(now())
+  updated_at  DateTime?         @updatedAt
+  permissions RolePermissions[]
+  users       User[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id     String @id @default(uuid())
+  name   String @unique
+  module String
+  domain String
+
+  roles RolePermissions[]
+}
+
+model RolePermissions {
+  permission    Permission @relation(fields: [permission_id], references: [id])
+  permission_id String
+  role          Role       @relation(fields: [role_id], references: [id])
+  role_id       String
+
+  @@id([permission_id, role_id])
+  @@unique([permission_id, role_id])
+  @@map("role_permissions")
 }

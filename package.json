@@ -52,5 +52,8 @@
     "nodemailer": "^6.9.2",
     "supertest": "^6.3.3",
     "zod": "^3.21.4"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
