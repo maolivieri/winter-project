@@ -11,7 +11,7 @@ import { verifyJwt } from '@/http/middlewares/verify-jwt'
 import { profile } from './profile'
 import { verifyUserPermission } from '@/http/middlewares/verify-permissions'
 
-export async function usersRoutes (app: FastifyInstance): Promise<void> {
+export async function userRoutes (app: FastifyInstance): Promise<void> {
   app.get('/users', list)
   app.post('/users', create)
   app.patch('/users/:id', update)
@@ -28,7 +28,7 @@ export async function usersRoutes (app: FastifyInstance): Promise<void> {
   app.get(
     '/test/1',
     { onRequest: [verifyJwt, verifyUserPermission(['create_user', 'edit_user'])] },
-    (request: FastifyRequest, reply: FastifyReply) => {
+    (_: FastifyRequest, reply: FastifyReply) => {
       return reply.status(200).send('TEM ACESSO 1')
     }
   )

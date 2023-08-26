@@ -26,7 +26,8 @@ describe('User', () => {
     await userRepository.create({
       email: 'original@email.com',
       password: 'initpassword',
-      name: 'original'
+      name: 'original',
+      role_id: 'testrole'
     })
 
     // authenticate user to get tokens

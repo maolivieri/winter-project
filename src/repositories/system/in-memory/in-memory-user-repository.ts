@@ -19,7 +19,8 @@ export class InMemoryUserRepository implements UserRepository {
       email: user.email,
       password: passwordHash,
       is_active: true,
-      created_at: new Date()
+      created_at: new Date(),
+      role_id: user.role_id
     }
 
     if (newUser) {

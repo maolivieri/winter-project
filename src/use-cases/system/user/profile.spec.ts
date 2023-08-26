@@ -21,7 +21,8 @@ describe('User', () => {
     await userRepository.create({
       name: 'John Doe',
       email: 'test1@example.com',
-      password: '123456'
+      password: '123456',
+      role_id: 'testrole'
     })
 
     const { user } = await authUseCase.execute({

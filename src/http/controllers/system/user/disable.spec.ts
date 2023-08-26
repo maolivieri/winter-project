@@ -17,13 +17,18 @@ describe('disable user (e2e)', () => {
   })
 
   it('should be able to disable a users', async () => {
+    const roleResponse = await request(app.server).post('/role').send({
+      name: 'admin'
+    })
+
     const array = [1, 2, 3, 4]
 
     for await (const n of array) {
       await request(app.server).post('/users').send({
         name: `User ${n}`,
         email: `user${n}@example.com`,
-        password: '123456'
+        password: '123456',
+        role_is: roleResponse.body.role.id
       })
     }
 

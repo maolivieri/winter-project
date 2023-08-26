@@ -12,7 +12,9 @@ export class CreateUserUseCase {
   async execute ({
     email,
     password,
-    name
+    name,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    role_id
   }: CreateUserDTO): Promise<User> {
     const passwordHash = password ? await hash(password, 6) : null
 
@@ -25,7 +27,8 @@ export class CreateUserUseCase {
     const user = await this.userRepository.create({
       email,
       name,
-      password: passwordHash
+      password: passwordHash,
+      role_id
     })
 
     return user

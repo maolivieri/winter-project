@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { permissionsSeed } from 'shared/seed/permissions'
 const prisma = new PrismaClient()
 
 interface CreatePermissionsSeed {
@@ -8,11 +9,9 @@ interface CreatePermissionsSeed {
 }
 
 export async function createPermissions(): Promise<void> {
-  // GENERAL | USER
-  await createPermission({ name: 'create_user', module: 'Users', domain: 'General' })
-  await createPermission({ name: 'edit_user', module: 'Users', domain: 'General' })
-  await createPermission({ name: 'disable_user', module: 'Users', domain: 'General' })
-  await createPermission({ name: 'list_users', module: 'Users', domain: 'General' })
+  for await (const { name, domain, module } of permissionsSeed) {
+    await createPermission({ name, module, domain })
+  }
 }
 
 async function createPermission({ module, name, domain }: CreatePermissionsSeed): Promise<void> {

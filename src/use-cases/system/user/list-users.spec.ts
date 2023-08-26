@@ -14,13 +14,15 @@ describe('Users', () => {
     await userRepository.create({
       email: 'test1@email.com',
       password: '123456',
-      name: 'test1'
+      name: 'test1',
+      role_id: 'testrole'
     })
 
     await userRepository.create({
       email: 'test2@email.com',
       password: '123456',
-      name: 'test2'
+      name: 'test2',
+      role_id: 'testrole'
     })
 
     const response = await sut.execute()

@@ -12,10 +12,12 @@ export async function create(request: FastifyRequest, reply: FastifyReply): Prom
   const registerBodySchema = z.object({
     name: z.string(),
     email: z.string().email(),
-    password: z.string().min(6).optional()
+    password: z.string().min(6).optional(),
+    role_id: z.string().uuid()
   })
 
-  const { name, email, password } = registerBodySchema.parse(request.body)
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { name, email, password, role_id } = registerBodySchema.parse(request.body)
 
   try {
     const registerUseCase = makeCreateUserUseCase()
@@ -23,7 +25,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply): Prom
     const user = await registerUseCase.execute({
       name,
       email,
-      password
+      password,
+      role_id
     })
 
     const setPasswordToken: string = jwt.sign({ sub: user.id }, env.RESET_PASSWORD_SECRET, {

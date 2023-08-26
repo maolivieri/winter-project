@@ -16,10 +16,15 @@ describe('create user (e2e)', () => {
   })
 
   it('should be able to create a user', async () => {
+    const roleResponse = await request(app.server).post('/role').send({
+      name: 'admin'
+    })
+
     const response = await request(app.server).post('/users').send({
       name: 'John Doe',
       email: 'johndoe@example.com',
-      password: '123456'
+      password: '123456',
+      role_is: roleResponse.body.role.id
     })
 
     expect(response.statusCode).toEqual(201)

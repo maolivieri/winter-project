@@ -25,7 +25,8 @@ describe('User', () => {
     await userRepository.create({
       email: 'test1@email.com',
       password: '123456',
-      name: 'test1'
+      name: 'test1',
+      role_id: 'testrole'
     })
 
     sendEmailMock.mockImplementation(() => {})

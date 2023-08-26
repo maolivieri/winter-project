@@ -12,10 +12,15 @@ describe('authenticate user (e2e)', () => {
   })
 
   it('should be able to authenticate user', async () => {
+    const roleResponse = await request(app.server).post('/role').send({
+      name: 'admin'
+    })
+
     const newUser: CreateUserDTO = {
       name: 'Test User',
       email: 'testuser@example.com',
-      password: await hash('123456', 6)
+      password: await hash('123456', 6),
+      role_id: roleResponse.body.role.id
     }
 
     await UserEntity.create({

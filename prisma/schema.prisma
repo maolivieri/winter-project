@@ -14,9 +14,9 @@ model User {
   name           String?
   is_active      Boolean            @default(true)
   created_at     DateTime           @default(now())
+  role_id        String
   refresh_tokens UserRefreshToken[]
   role           Role               @relation(fields: [role_id], references: [id])
-  role_id        String
 
   @@map("users")
 }

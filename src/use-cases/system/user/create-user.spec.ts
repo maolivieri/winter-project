@@ -15,7 +15,8 @@ describe('User', () => {
     await sut.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
-      password: '123456'
+      password: '123456',
+      role_id: 'testrole'
     })
 
     const user = await userRepository.findByEmail('johndoe@example.com')
@@ -27,13 +28,15 @@ describe('User', () => {
     await userRepository.create({
       name: 'John Doe',
       email: 'test1@example.com',
-      password: '123456'
+      password: '123456',
+      role_id: 'testrole'
     })
 
     await expect(sut.execute({
       name: 'Test2',
       email: 'test1@example.com',
-      password: '123456'
+      password: '123456',
+      role_id: 'testrole'
     })).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
 })

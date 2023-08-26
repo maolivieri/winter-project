@@ -17,13 +17,21 @@ describe('update user (e2e)', () => {
   })
 
   it('should be able to list all users', async () => {
+    const roleResponse = await request(app.server).post('/role').send({
+      name: 'admin'
+    })
+
+    console.log('####################')
+    console.log(JSON.stringify(roleResponse.body))
+
     const array = [1, 2, 3, 4]
 
     for await (const n of array) {
       await request(app.server).post('/users').send({
         name: `User ${n}`,
         email: `user${n}@example.com`,
-        password: '123456'
+        password: '123456',
+        role_is: roleResponse.body.role.id
       })
     }
 

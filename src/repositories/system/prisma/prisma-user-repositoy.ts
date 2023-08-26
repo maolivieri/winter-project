@@ -11,7 +11,9 @@ export class PrismaUserRepository implements UserRepository {
         is_active: true,
         created_at: true,
         password: false,
-        refresh_tokens: false
+        refresh_tokens: false,
+        role_id: true,
+        role: true
       }
     })
   }

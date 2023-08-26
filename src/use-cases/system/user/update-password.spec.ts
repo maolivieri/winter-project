@@ -3,21 +3,29 @@ import { InMemoryUserRepository } from '../../../repositories/system/in-memory/i
 import { UpdatePasswordUseCase } from './update-password'
 import { env } from '@/env'
 import { compare } from 'bcryptjs'
+import { InMemoryRoleRepository } from '@/repositories/system/in-memory/in-memory-role-repository'
 
+let roleRepository: InMemoryRoleRepository
 let userRepository: InMemoryUserRepository
 let sut: UpdatePasswordUseCase
 
 describe('User', () => {
   beforeEach(() => {
+    roleRepository = new InMemoryRoleRepository()
     userRepository = new InMemoryUserRepository()
     sut = new UpdatePasswordUseCase(userRepository)
   })
 
   it('should be able to update a user password', async () => {
+    const role = await roleRepository.create({
+      name: 'testrole'
+    })
+
     await userRepository.create({
       email: 'original@email.com',
       password: 'initpassword',
-      name: 'original'
+      name: 'original',
+      role_id: role.id
     })
 
     const user = await userRepository.findByEmail('original@email.com')

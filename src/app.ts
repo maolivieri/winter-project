@@ -2,8 +2,12 @@
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import { env } from './env'
-import { usersRoutes } from './http/controllers/system/user/route'
+import { userRoutes } from './http/controllers/system/user/route'
 import fastifyJwt from '@fastify/jwt'
+import fastifySwagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
+import { roleRoutes } from './http/controllers/system/role/route'
+import { permissionRoutes } from './http/controllers/system/permission/route'
 
 export const app = fastify()
 
@@ -14,7 +18,17 @@ app.register(fastifyJwt, {
   }
 })
 
-app.register(usersRoutes)
+app.register(fastifySwagger, {
+  mode: 'dynamic'
+})
+
+app.register(fastifySwaggerUi, {
+  routePrefix: '/docs'
+})
+
+app.register(userRoutes)
+app.register(roleRoutes)
+app.register(permissionRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

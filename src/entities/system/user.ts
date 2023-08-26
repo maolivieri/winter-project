@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 
 export interface User extends _User {}
 
-export interface CreateUserDTO extends Prisma.UserCreateInput {}
+export interface CreateUserDTO extends Prisma.UserUncheckedCreateInput {}
 
 export interface UpdateUserDTO {
   userId: string

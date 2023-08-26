@@ -1,5 +1,5 @@
 import { app } from '@/app'
-import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-user'
+import { createAndAuthenticateUser } from '@/utils/test/create-and-authenticate-standard-user'
 import request from 'supertest'
 
 describe('get user profile (e2e)', () => {
